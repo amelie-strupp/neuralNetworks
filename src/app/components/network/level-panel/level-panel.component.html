@@ -1,0 +1,25 @@
+<section id="level-panel">
+  <h3 id="title">Challenges</h3>
+  <div class="challenge-categories" *ngFor="let levelCategory of levels">
+    <div class="challenge-category">
+      <h5 class="challenge-title">{{levelCategory.categoryName}}</h5>
+      <div class="challenge-items">
+        <div class="challenge-item" *ngFor="let level of levelCategory.levels"
+        (click)="switchToLevel(level)"
+        >
+          <div class="challenge-item-text-container">
+            <p class="challenge-item-text">{{level.title}}</p>
+            <small class="challenge-item-subtext">
+              {{level.description}}
+            </small>
+            <div class="tag-container">
+              <div class="tag" *ngFor="let tag of level.tags" [style.backgroundColor]="getColorForTag(tag)">
+                <p class="tag-text">{{tag}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+</section>

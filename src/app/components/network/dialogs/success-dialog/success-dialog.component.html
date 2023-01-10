@@ -1,0 +1,21 @@
+<section id="success-dialog"  [class.remaining-work]="!wasSuccessful">
+  <div id="icon-section"></div>
+  <div id="text-section" >
+    <h5 id="title">{{wasSuccessful ? 'Congratulations!' : 'Not quite there yet...'}}</h5>
+    <h6 id="subtitle">
+      <span *ngIf="wasSuccessful">You have successfully completed the challenge!</span>
+      <span *ngIf="!wasSuccessful">
+        Try to get the error a little lower by adjusting the weights and biases. <br><br>
+        If you want to repeat the concepts first, you can also check out the concepts section!
+      </span>
+      </h6>
+      <div id="button-container">
+      <button id="secondary-button" [class.remaining-work]="!wasSuccessful" (click)="close()">
+        {{wasSuccessful ? 'Stay here' : 'Check out the concepts section' }}
+      </button>
+      <button id="primary-button"  [class.remaining-work]="!wasSuccessful" (click)="close()">
+        {{wasSuccessful ? 'Take me to the next challenge' : 'Continue' }}
+      </button>
+    </div>
+  </div>
+</section>

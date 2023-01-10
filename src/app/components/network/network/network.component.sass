@@ -1,0 +1,361 @@
+#success-dialog-container
+  height: 100%
+  width: 100%
+  pointer-events: none
+  position: fixed
+  top: 0
+  left: 0
+  display: grid
+  justify-content: center
+  align-content: center
+  z-index: 300
+  #success-dialog
+    pointer-events: all
+    position: relative
+    z-index: 1
+  #dialog-background
+    position: absolute
+    top: 0
+    left: 0
+    height: 100%
+    width: 100%
+    background-color: var(--purple-black)
+    opacity: 0.6
+    pointer-events: all
+    cursor: pointer
+#challenge-dialog-container
+  display: grid
+  justify-content: center
+  justify-items: center
+  grid-template-columns: max-content
+  margin-top: 32px
+#network-container
+  padding: 0 80px
+  padding-top: 24px
+  padding-bottom: 32px
+  display: grid
+  grid-template-areas:'activationFunctions activationFunctions activationFunctions' 'input network output'
+  row-gap: 24px
+  grid-template-columns: max-content 2fr 500px
+  column-gap: 24px
+  #activation-function-container
+    grid-area: activationFunctions
+    border: var(--purple-border-light)
+    padding: 24px
+    border-radius: 8px
+    display: grid
+    grid-template-columns: 1fr 2fr
+    column-gap: 24px
+    align-items: center
+    #activation-function-title
+      color: white
+      font-size: 18px
+      padding: 0
+      margin: 0
+      padding-bottom: 2px
+    #activation-function-helper-text
+      color: var(--text-color-gray)
+      font-size: 16px
+      font-weight: 500
+      padding: 0
+      margin: 0
+    #activation-function-list
+      display: grid
+      grid-auto-flow: column
+      column-gap: 12px
+      grid-auto-columns: max-content
+      justify-content: flex-start
+      align-items: center
+      align-content: center
+      .activation-function-item
+        width: max-content
+        padding: 10px 14px
+        border-radius: 4px
+        color: white
+        font-size: 14px
+        font-weight: 700
+        cursor: grab
+        user-select: none
+        p
+          margin: 0
+          padding: 0
+  #network-input
+    grid-area: input
+  #network-output
+    grid-area: output
+  #network-input, #network-output
+    border: var(--purple-border-light)
+    padding: 16px
+    border-radius: 8px
+    #data-input-title, #data-output-title
+      color: white
+    #data-input-subtitle, #data-output-subtitle
+      color: var(--text-color-gray)
+    #dataset-container, #result-container
+      background-color: var(--background-light-contrast)
+      padding: 24px
+      border-radius: 8px
+      width: 100%
+      box-sizing: border-box
+      display: grid
+      justify-content: center
+      min-width: 220px
+      margin-top: 16px
+      #dataset-container-header, #result-container-header
+        width: 100%
+        display: grid
+        grid-template-columns: 1fr 1fr
+        column-gap: 32px
+        &#result-container-header
+          grid-template-columns: 1fr 1fr 1fr 1fr
+          justify-items: center
+          column-gap: 0px
+        p
+          color: white
+          padding: 0
+          margin: 0
+          font-weight: 700
+          font-size: 14px
+      #dataset-list, #result-list
+        display: grid
+        grid-auto-flow: row
+        row-gap: 8px
+        margin-top: 16px
+        width: 100%
+        box-sizing: border-box
+        .dataset-item
+          background-color: white
+          border-radius: 200px
+          display: grid
+          grid-template-columns: 80px 130px 0px
+          align-items: center
+          justify-content: stretch
+          cursor: pointer
+          border: var(--gray-border-light)
+          position: relative
+          p
+            font-size: 16px
+            font-weight: 700
+            margin: 0
+            padding: 0
+          .dataset-item-ideal-output
+            background-color: var(--green-light)
+            border-radius: 200px
+            padding: 12px
+            display: grid
+            justify-content: center
+            align-items: center
+            align-content: center
+            height: 100%
+            box-sizing: border-box
+          .dataset-item-value
+            display: grid
+            justify-content: stretch
+            grid-template-columns: 1fr
+            padding: 8px
+            padding-right: 16px
+            justify-items: center
+          .dataset-item-circle
+            position: absolute
+            right: -10px
+            height: 20px
+            width: 20px
+            border-radius: 50%
+            background-color: white
+            border: var(--gray-border-light)
+      #result-list
+        min-width: 400px
+        .result-item
+          display: grid
+          background-color: white
+          grid-template-columns: 0px 1fr 1fr 1fr 1fr
+          align-items: stretch
+          border-radius: 8px
+          cursor: pointer
+          p
+            font-size: 16px
+            font-weight: 700
+            margin: 0
+            padding: 1px 0
+          .result-item-ideal-output, .result-item-value, .result-item-input, .result-item-error
+            padding: 24px 16px
+            border-radius: 8px
+            box-sizing: border-box
+            text-align: center
+            display: grid
+            align-items: center
+            align-content: stretch
+          .result-item-ideal-output
+            background-color: var(--green-light)
+          .result-item-error
+            background-color: var(--red)
+            align-items: center
+            align-content: stretch
+            display: grid
+          .result-item-input
+            align-items: center
+            align-content: stretch
+            display: grid
+          .result-item-circle
+            align-self: center
+            position: relative
+            right: 10px
+            height: 20px
+            width: 20px
+            border-radius: 50%
+            background-color: white
+            border: var(--gray-border-light)
+    #entire-dataset-button-container
+      display: grid
+      justify-content: center
+      margin-top: 16px
+    #reset-dataset-button
+      margin-top: 8px
+      background-color: var(--red-pink)
+  #error-container
+    background-color: var(--background-light-contrast)
+    padding: 24px
+    border-radius: 8px
+    width: max-content
+    width: 100%
+    box-sizing: border-box
+    margin-top: 16px
+    display: grid
+    justify-content: center
+    justify-items: center
+    #error-container-title
+      color: var(--text-color-light-purple)
+      font-size: 16px
+      margin: 0
+      padding: 0
+      font-weight: 700
+    #multi-error-explanation
+      color: white
+      font-size: 13px
+      margin: 0
+      padding: 0
+      font-weight: 500
+    #error-value-container
+      display: grid
+      grid-auto-flow: column
+      column-gap: 12px
+      .error-value-item
+        border-radius: 50%
+        background-color: var(--red)
+        border: 5px solid var(--red-light)
+        display: grid
+        justify-content: center
+        align-content: center
+        margin-top: 16px
+        .error-value-text
+          color: white
+          font-size: 24px
+          font-weight: 700
+  // Central area of the network including the layers
+  #network-main
+    border: var(--purple-border-light)
+    border-radius: 8px
+    padding: 48px
+    grid-area: network
+    #layer-container
+      display: grid
+      grid-auto-flow: column
+      column-gap: 220px
+      align-content: flex-start
+      align-items: flex-start
+      justify-content: center
+      position: relative
+      z-index: 1
+      pointer-events: none
+      .neuron-layer
+        display: grid
+        grid-auto-flow: row
+        row-gap: 110px
+        .neuron
+          height: 100px
+          width: 100px
+          background-color: var(--blue)
+          border-radius: 50%
+          display: grid
+          justify-content: center
+          align-content: center
+          align-items: center
+          justify-items: center
+          grid-template-rows: 1fr
+          row-gap: 4px
+          cursor: pointer
+          pointer-events: all
+          overflow: hidden
+          &.with-activation-function
+            grid-template-rows: 1fr max-content
+            align-items: flex-end
+          .bias-text
+            font-weight: 700
+            font-size: 22px
+            user-select: none
+            margin: 0
+            padding: 0
+          .activation-function-item
+            border-radius: 8px
+            border: 2px solid white
+            background-color: var(--yellow)
+            user-select: none
+            margin-bottom: -2px
+            width: 200px
+            display: grid
+            justify-content: center
+            p
+              color: white
+              font-weight: 600
+              font-size: 14px
+              padding: 12px 14px
+              margin: 0
+  #line-container
+    position: absolute
+    pointer-events: none
+    top: 0
+    left: 0
+    overflow: hidden
+    height: 200vh
+    width: 100%
+    overflow: hidden
+    svg
+      height: 200vh
+      width: 100%
+    ::ng-deep .weight-line
+      pointer-events: all
+      cursor: pointer
+    ::ng-deep .weight-text
+      font-family: var(--primary-font)
+      fill: white
+      font-size: 22px
+      font-weight: 600
+      text-anchor: middle
+      alignment-baseline: central
+    ::ng-deep .input-line
+      pointer-events: all
+      stroke-width: 4px
+      cursor: pointer
+      stroke: var(--background-medium-contrast)
+    ::ng-deep .output-line
+      pointer-events: all
+      stroke-width: 4px
+      cursor: pointer
+      stroke: var(--background-medium-contrast)
+    ::ng-deep .information-circle-item
+      height: 32px
+      width: 32px
+      fill: #f7dc74
+      filter: drop-shadow(0 0 7px #f7dc74) drop-shadow(0 0 3px white)
+#adjustment-dialog-container
+  display: grid
+  width: 100%
+  justify-content: center
+  justify-items: center
+  position: fixed
+  bottom: 32px
+  left: 0px
+  pointer-events: none
+  z-index: 100
+  &>*
+    pointer-events: all

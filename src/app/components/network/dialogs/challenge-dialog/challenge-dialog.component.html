@@ -1,0 +1,16 @@
+<section id="challenge-dialog">
+  <div id="icon-section"></div>
+  <div id="text-section">
+    <h4 id="title">Challenge: {{level?.title}}</h4>
+    <p id="description">{{level?.description}}</p>
+    <p id="error-bound">Maximum Mean-Squared-Error to pass: <span id="error-bound-number">{{level?.successBound}}</span></p>
+  </div>
+  <div id="button-container">
+    <button id="secondary-button" class="primary-button">
+      Repeat helpful concepts
+    </button>
+    <button id="primary-button"  class="primary-button" (click)="check()">
+      Check my solution
+      </button>
+    </div>
+</section>

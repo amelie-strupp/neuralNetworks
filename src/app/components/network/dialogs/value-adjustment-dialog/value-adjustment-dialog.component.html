@@ -1,0 +1,61 @@
+<app-simple-dialog
+  [title]="valueType == 'WEIGHT' ? 'Adjust Weight' : 'Adjust Bias'"
+  subtitle="Drag a slider or use your keyboard"
+>
+  <section id="dialog-content"
+
+  (mouseup)="deactivateSlider()"
+  >
+    <div id="slider-container">
+      <div id="slider" #sliderBar>
+        <div id="slider-indicator"
+        (mousedown)="activateSlider($event)"
+        [style.left.px]="sliderPosition">
+        <!-- This is needed since the slider requires an absolute positioning
+        as well as having its' content centered-->
+        <div id="slider-indicator-content">
+          <div id="slider-text-container">
+            <p id="slider-text">{{value | number:'1.0-2'}}</p>
+            <!-- The little triangle at the bottom of the text container-->
+            <div id="text-container-triangle"></div>
+          </div>
+          <div id="slider-mark">
+            <div id="slider-mark-inner"></div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div id="information-section">
+      <div id="keyboard-interaction-section">
+        <!-- <p class="subsection-title">Keyboard</p> -->
+        <div id="keyboard-image-section">
+        <img src="assets/interface/keyboard.svg" id="keyboard-image">
+        <div id="keyboard-value-container">
+          <div class="value-item positive">
+            <p>+ {{stepSize}}</p>
+          </div>
+          <div class="value-item negative">
+            <p>- {{stepSize}}</p>
+          </div>
+        </div>
+        </div>
+      </div>
+      <div id="divider"></div>
+      <div id="mouse-interaction-section">
+        <!-- <p class="subsection-title">Mouse</p> -->
+        <div id="mouse-image-section">
+        <img src="assets/interface/mouse.svg" id="mouse-image">
+        <div id="mouse-value-container">
+          <div class="value-item positive">
+            <p>+ {{stepSize}}</p>
+          </div>
+          <div class="value-item negative">
+            <p>- {{stepSize}}</p>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</app-simple-dialog>

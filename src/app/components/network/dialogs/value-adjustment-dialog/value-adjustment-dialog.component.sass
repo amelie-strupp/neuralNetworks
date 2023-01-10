@@ -1,0 +1,135 @@
+#dialog-content
+  width: 650px
+  display: grid
+  justify-content: center
+  justify-items: center
+  #slider-container
+    width: 500px
+    margin: 32px 0
+    margin-bottom: 24px
+    #slider
+      height: 20px
+      width: 100%
+      border-radius: 100px
+      background: linear-gradient(90deg, var(--blue-light) 0%, #FFFFFF 50%,  var(--red-pink) 100%)
+      position: relative
+      user-select: none
+      #slider-indicator
+        position: absolute
+        height: 100%
+        #slider-indicator-content
+          position: relative
+          left: -18px
+          top: -6px
+          display: grid
+          #slider-mark
+            height: 36px
+            width: 36px
+            background-color: var(--grey-dark)
+            border-radius: 50%
+            display: grid
+            justify-content: center
+            align-content: center
+            cursor: pointer
+            #slider-mark-inner
+              height: 18px
+              width: 18px
+              background-color: white
+              border-radius: 50%
+          #slider-text-container
+            background-color: var(--grey-dark)
+            border-radius: 4px
+            position: absolute
+            top: -54px
+            display: grid
+            justify-items: center
+            justify-content: stretch
+            justify-self: center
+            opacity: 0.9
+            #slider-text
+              color: white
+              font-size: 15px
+              font-weight: 700
+              margin: 0
+              padding: 0
+              padding: 8px
+            #text-container-triangle
+              position: absolute
+              bottom: -6px
+              background-color: var(--grey-dark)
+              // Creates a triangle:
+              display: block
+              height: 16px
+              width: 16px
+              background-color: inherit
+              position: absolute
+              left: calc(50% - 8px)
+              clip-path: polygon(0% 0%, 100% 100%, 0% 100%)
+              transform: rotate(-45deg)
+              border-radius: 0 0 0 4px
+  #information-section
+    background-color: var(--gray-background-light)
+    border-radius: 8px
+    display: grid
+    grid-template-columns: 1fr max-content 1fr
+    column-gap: 24px
+    padding: 12px
+    margin: 0 12px
+    box-sizing: border-box
+    .value-item
+      color: white
+      border-radius: 100px
+      width: max-content
+      display: grid
+      justify-content: center
+      align-content: center
+      padding: 6px 12px
+      p
+        margin: 0
+        padding: 0
+        font-size: 13px
+        font-weight: 600
+      &.positive
+        background-color: var(--red-pink)
+      &.negative
+        background-color: var(--blue)
+    .subsection-title
+      color: var(--text-color-dark-gray)
+      padding: 0
+      margin: 0
+      font-weight: 600
+      font-size: 14px
+      margin-bottom: 12px
+    #divider
+      width: 2px
+      background-color: var(--grey-light)
+      border-radius: 10px
+      height: 90%
+      justify-self: center
+    #keyboard-interaction-section
+      #keyboard-image-section
+        display: grid
+        grid-template-columns: 64px 1fr
+        column-gap: 12px
+        #keyboard-image
+          width: 48px
+        #keyboard-value-container
+          display: grid
+          grid-template-rows: 1fr 1fr
+          align-items: center
+          align-content: stretch
+          height: 90%
+          align-self: center
+    #mouse-interaction-section
+      position: relative
+      #mouse-image-section
+        display: grid
+        justify-content: center
+        #mouse-image
+          width:40px
+        #mouse-value-container
+          position: absolute
+          display: grid
+          grid-template-columns: 1fr 1fr
+          width: 100%
+          justify-items: center

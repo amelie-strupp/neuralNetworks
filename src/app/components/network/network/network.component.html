@@ -1,0 +1,245 @@
+
+<div id="success-dialog-container" *ngIf="showSuccessDialog">
+  <div id="dialog-background" (click)="closeSuccessDialog()"></div>
+  <app-success-dialog id="success-dialog"
+  (closeDialog)="closeSuccessDialog()"
+  [wasSuccessful]="hasBeenSuccessful"></app-success-dialog>
+</div>
+
+<app-level-panel></app-level-panel>
+<div id="challenge-dialog-container">
+<app-challenge-dialog (checkSolution)="checkSolution()" [level]="levelConfiguration"></app-challenge-dialog>
+</div>
+
+<section id="network-container">
+  <div id="activation-function-container">
+    <div>
+    <h4 id="activation-function-title">Activation Functions</h4>
+    <p id="activation-function-helper-text">Drag the function on the neuron you'd like to apply it to. <br>
+      To remove an activation function, drag the identity on the neuron.</p>
+    </div>
+    <div id="activation-function-list">
+      <div class="activation-function-item"
+      draggable="true"
+      (dragstart)="dragActivationFunction(function, $event)"
+      *ngFor="let function of activationFunctionList" [style.backgroundColor]="getColorForActivationFunction(function)">
+        <p >{{getActivationFunctionName(function)}}</p>
+      </div>
+    </div>
+  </div>
+  <!-- The container used to paint all the lines between and within the different sections
+  like the connections within the layers or from input to output
+  -->
+  <section id="line-container">
+    <svg #lineContainer></svg>
+  </section>
+
+  <section id="network-input">
+    <h4 id="data-input-title">Input</h4>
+    <h4 class="h4-subtitle" id="data-input-subtitle">Choose dataset</h4>
+    <div id="dataset-container">
+      <div id="dataset-container-header">
+        <p>Ideal Output</p>
+        <p>Input</p>
+      </div>
+      <div id="dataset-list">
+        <div
+          class="dataset-item"
+          (click)="selectDatasetItem(itemIndex)"
+          *ngFor="let dataItem of levelConfiguration.dataset.getDataItems(); let itemIndex = index"
+        >
+          <div class="dataset-item-ideal-output">
+            <p *ngFor="let value of dataItem.desiredOutput">{{ value }}</p>
+          </div>
+          <div class="dataset-item-value">
+            <p>{{dataItem.values.length > 1 ? '(' :
+              ''}}
+              <span *ngFor="let value of dataItem.values; let isFirst = first">{{(isFirst ? '': ', ') +value }}</span>
+              {{dataItem.values.length > 1 ? ')' :
+              ''}}</p>
+          </div>
+          <!-- The circle displayed on the right of the item-->
+          <div
+            class="dataset-item-circle"
+            [attr.data-dataset-item-index]="itemIndex"
+          ></div>
+        </div>
+      </div>
+    </div>
+    <div id="entire-dataset-button-container">
+      <button
+        id="entire-dataset-button"
+        class="primary-button"
+        (click)="selectEntireDataset()"
+      >
+        Entire Dataset
+      </button>
+      <button
+        id="reset-dataset-button"
+        class="primary-button"
+        (click)="clearInput()"
+      >
+        Clear Input
+      </button>
+    </div>
+  </section>
+  <section id="network-main">
+    <section id="layer-container">
+
+        <div class="neuron-layer" [attr.data-layer-index]="layerIndex" *ngFor="let layer of getLayers(); let layerIndex = index">
+          <!-- The neuron index is used by the weight painter to connect the different nodes-->
+          <div
+            class="neuron"
+            (drop)="dropActivationFunctionOnNeuron(layerIndex, neuronIndex, $event)"
+            (dragover)="dragOverAllowed($event)"
+            (dragenter)="dragEnterAllowed($event)"
+            (click)="clickedNeuron(layerIndex, neuronIndex, 'LEFT', $event)"
+            (contextmenu)="
+              clickedNeuron(layerIndex, neuronIndex, 'RIGHT', $event)
+            "
+            *ngFor="let neuron of layer.getNeurons(); let neuronIndex = index"
+            [style.background-color]="getColorForNeuron(neuron).backgroundColor"
+            (click)="selectNeuron(layerIndex, neuronIndex)"
+            [style.box-shadow]="
+              getNeuronBoxShadowValue(layerIndex, neuronIndex, neuron)
+            "
+            [style.color]="getColorForNeuron(neuron).textColor"
+            [attr.data-neuron-index]="neuronIndex"
+            [class.with-activation-function]="neuron.hasActivationFunction()"
+          >
+            <!-- Make sure to show + as well as - next to the bias-->
+            <p class="bias-text">
+              {{
+                neuron.bias == 0
+                  ? "0"
+                  : neuron.bias > 0
+                  ? "+ " + (neuron.bias | number:'1.0-2')
+                  : "- " + (-neuron.bias | number:'1.0-2')
+              }}
+            </p>
+            <!-- The activation function associated with this neuron-->
+            <div class="activation-function-item"
+            [style.background-color]="getColorForActivationFunction(neuron.activationFunction)"
+            *ngIf="neuron.hasActivationFunction()" >
+              <p>{{neuron.getActivationFunctionName()}}</p>
+            </div>
+          </div>
+
+
+      </div>
+    </section>
+  </section>
+  <section id="network-output">
+    <h4 id="data-output-title">Output</h4>
+    <h4 class="h4-subtitle" id="data-output-subtitle">
+      Check how well your network performed
+    </h4>
+    <div id="result-container">
+      <div id="result-container-header">
+        <p>Result</p>
+        <p>Ideal Ouput</p>
+        <p>Input</p>
+        <p>Error</p>
+      </div>
+
+      <div id="result-list">
+        <div
+          class="result-item"
+          *ngFor="
+            let result of currentlyDisplayedResults;
+            let resultIndex = index
+          "
+        >
+          <!-- The circle displayed on the left of the item-->
+          <div
+            class="result-item-circle"
+            [attr.data-result-item-index]="resultIndex"
+          ></div>
+          <div class="result-item-value">
+            <p *ngFor="let resultComponent of result.result">
+              {{ resultComponent | number : "1.0-2" }}
+            </p>
+          </div>
+          <div class="result-item-ideal-output">
+            <p *ngFor="let outputComponent of result.desiredOutput">
+              {{ outputComponent | number : "1.0-2" }}
+            </p>
+          </div>
+          <div class="result-item-input">
+            <p *ngFor="let inputComponent of result.input">{{inputComponent | number : "1.0-2"}}</p>
+            <!-- <p>{{result.input.length > 1 ? '(' :
+              ''}}
+              <span *ngFor="let inputComponent of result.input; let isFirst = first">
+                {{(isFirst ? '': ', ') + (inputComponent | number : "1.0-2") }}
+              </span>
+              {{result.input.length > 1 ? ')' :
+              ''}}</p> -->
+          </div>
+          <div
+            class="result-item-error"
+            [style.backgroundColor]="
+              getColorForSingleItemError(result.error).innerColor
+            "
+          >
+            <p>{{ result.error | number : "1.0-2" }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="error-container" *ngIf="entireDatasetProcessed">
+      <p id="error-container-title">Mean Squared Error</p>
+      <p id="multi-error-explanation" *ngIf="totalError.length > 1">
+        The MSE is computed componentwise
+      </p>
+      <div id="error-value-container">
+        <div
+          class="error-value-item"
+          *ngFor="let errorItem of totalError; let itemIndex = index"
+          [style.backgroundColor]="
+            getColorForErrorLevel(totalErrorLevels[itemIndex].level).innerColor
+          "
+          [style.borderColor]="
+            getColorForErrorLevel(totalErrorLevels[itemIndex].level).borderColor
+          "
+          [style.height.px]="
+            getSizeForMaxErrorPercentage(
+              totalErrorLevels[itemIndex].percentageOfHighErrorBound
+            )
+          "
+          [style.width.px]="
+            getSizeForMaxErrorPercentage(
+              totalErrorLevels[itemIndex].percentageOfHighErrorBound
+            )
+          "
+        >
+          <p class="error-value-text">{{ errorItem | number : "1.0-2" }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>
+<!-- Make sure the click event doesn't propagate behind this dialog,
+since it would be caught by the click handler, removing the selection otherwise-->
+<section id="adjustment-dialog-container" (click)="$event.stopPropagation()">
+    <!--BIAS ADJUSTMENT DIALOG-->
+    <app-value-adjustment-dialog
+      *ngIf="selectedNeuron != null"
+      [sliderBoundMaxValue]="levelConfiguration.validValueConfiguration.maxBias"
+      [sliderBoundMinValue]="levelConfiguration.validValueConfiguration.minBias"
+      [stepSize]="levelConfiguration.validValueConfiguration.biasStepSize"
+
+      [valueType]="'BIAS'"
+      [inputValue]="getValueOfSelectedNeuron()"
+      (valueChanged)="setValueOfSelectedNeuron($event)"
+    ></app-value-adjustment-dialog>
+    <!--WEIGHT ADJUSTMENT DIALOG-->
+    <app-value-adjustment-dialog
+      *ngIf="selectedWeight != null"
+      [sliderBoundMaxValue]="levelConfiguration.validValueConfiguration.maxWeight"
+      [sliderBoundMinValue]="levelConfiguration.validValueConfiguration.minWeight"
+      [stepSize]="levelConfiguration.validValueConfiguration.weightStepSize"
+      [valueType]="'WEIGHT'"
+      [inputValue]="getValueOfSelectedWeight()"
+      (valueChanged)="setValueOfSelectedWeight($event)"
+    ></app-value-adjustment-dialog>
+</section>
